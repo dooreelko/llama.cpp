@@ -34,6 +34,7 @@ models/*
 models-mnt
 
 /main
+/generate
 /quantize
 /quantize-stats
 /result
