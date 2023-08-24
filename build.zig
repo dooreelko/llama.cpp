@@ -36,7 +36,7 @@ const Maker = struct {
     }
 
     fn init(builder: *std.build.Builder) !Maker {
-        const commit_hash = @embedFile(".git/refs/heads/master");
+        const commit_hash = builder.exec(&.{ "git", "rev-parse", "HEAD" });
         const config_header = builder.addConfigHeader(
             .{ .style = .blank, .include_path = "build-info.h" },
             .{
@@ -108,14 +108,6 @@ pub fn build(b: *std.build.Builder) !void {
     const console = make.obj("common", "examples/console.cpp");
     const grammar_parser = make.obj("grammar-parser", "examples/grammar-parser.cpp");
 
-    _ = make.exe("main", "examples/main/main.cpp", &.{ ggml, ggml_alloc, llama, common, console, grammar_parser });
-    _ = make.exe("quantize", "examples/quantize/quantize.cpp", &.{ ggml, ggml_alloc, llama });
-    _ = make.exe("perplexity", "examples/perplexity/perplexity.cpp", &.{ ggml, ggml_alloc, llama, common });
+    _ = make.exe("generate", "examples/main/main.cpp", &.{ ggml, ggml_alloc, llama, common, console, grammar_parser });
     _ = make.exe("embedding", "examples/embedding/embedding.cpp", &.{ ggml, ggml_alloc, llama, common });
-    _ = make.exe("train-text-from-scratch", "examples/train-text-from-scratch/train-text-from-scratch.cpp", &.{ ggml, ggml_alloc, llama });
-
-    const server = make.exe("server", "examples/server/server.cpp", &.{ ggml, ggml_alloc, llama, common, grammar_parser });
-    if (server.target.isWindows()) {
-        server.linkSystemLibrary("ws2_32");
-    }
 }
