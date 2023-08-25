@@ -410,6 +410,7 @@ int main(int argc, char ** argv) {
         llama_reset_timings(ctx);
     }
 
+    printf("\"");
     while ((n_remain != 0 && !is_antiprompt) || params.interactive) {
         // predict
         if (embd.size() > 0) {
@@ -805,6 +806,7 @@ int main(int argc, char ** argv) {
             is_interacting = true;
         }
     }
+    printf("\"");
 
     if (!path_session.empty() && params.prompt_cache_all && !params.prompt_cache_ro) {
         fprintf(stderr, "\n%s: saving final output to session file '%s'\n", __func__, path_session.c_str());
