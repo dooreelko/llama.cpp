@@ -45,6 +45,7 @@ models-mnt
 /main
 /metal
 /perplexity
+/generate
 /quantize
 /quantize-stats
 /result

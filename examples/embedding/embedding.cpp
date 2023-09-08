@@ -88,10 +88,13 @@ int main(int argc, char ** argv) {
     const int n_embd = llama_n_embd(ctx);
     const auto embeddings = llama_get_embeddings(ctx);
 
+    printf("[");
+
     for (int i = 0; i < n_embd; i++) {
-        printf("%f ", embeddings[i]);
+        printf( i < n_embd -1 ? "%f, " : "%f", embeddings[i]);
     }
-    printf("\n");
+
+    printf("]");
 
     llama_print_timings(ctx);
     llama_free(ctx);
